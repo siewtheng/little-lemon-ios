@@ -16,6 +16,8 @@
 		F82390B12BDEAA3A004B7576 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82390B02BDEAA3A004B7576 /* Menu.swift */; };
 		F82390B42BDEACEA004B7576 /* NavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82390B32BDEACEA004B7576 /* NavigationItem.swift */; };
 		F82390B62BDEADF5004B7576 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82390B52BDEADF5004B7576 /* UserProfile.swift */; };
+		F88A48662BDF2B640080304F /* InitialsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88A48652BDF2B640080304F /* InitialsImage.swift */; };
+		F88A48682BDF2E0B0080304F /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88A48672BDF2E0B0080304F /* PhotoPicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,8 @@
 		F82390B02BDEAA3A004B7576 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		F82390B32BDEACEA004B7576 /* NavigationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationItem.swift; sourceTree = "<group>"; };
 		F82390B52BDEADF5004B7576 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		F88A48652BDF2B640080304F /* InitialsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialsImage.swift; sourceTree = "<group>"; };
+		F88A48672BDF2E0B0080304F /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +98,8 @@
 			isa = PBXGroup;
 			children = (
 				F82390AC2BDEA0A8004B7576 /* EmailValidator.swift */,
+				F88A48652BDF2B640080304F /* InitialsImage.swift */,
+				F88A48672BDF2E0B0080304F /* PhotoPicker.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -178,10 +184,12 @@
 			files = (
 				F82390B42BDEACEA004B7576 /* NavigationItem.swift in Sources */,
 				F82390AA2BDE9E4C004B7576 /* Onboarding.swift in Sources */,
+				F88A48682BDF2E0B0080304F /* PhotoPicker.swift in Sources */,
 				F82390B62BDEADF5004B7576 /* UserProfile.swift in Sources */,
 				F80155392BDD509B009BEBF0 /* Little_LemonApp.swift in Sources */,
 				F82390AF2BDEA9D1004B7576 /* Home.swift in Sources */,
 				F82390AD2BDEA0A8004B7576 /* EmailValidator.swift in Sources */,
+				F88A48662BDF2B640080304F /* InitialsImage.swift in Sources */,
 				F82390B12BDEAA3A004B7576 /* Menu.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,6 +328,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to your photo library to allow you to select a profile picture.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -354,6 +363,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to your photo library to allow you to select a profile picture.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
