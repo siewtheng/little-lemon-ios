@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct Home: View {
-
     
+    // persistence controller constant - core data
+    let persistence = PersistenceController.shared
     
     var body: some View {
         
@@ -17,10 +18,11 @@ struct Home: View {
             
             // menu tab
             Menu()
+                .environment(\.managedObjectContext, persistence.container.viewContext)
                 .tabItem {
                     Label("Menu", systemImage: "list.dash")
                 }
-                
+            
             
             // profile tab
             UserProfile()
