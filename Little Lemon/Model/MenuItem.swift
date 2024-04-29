@@ -8,7 +8,7 @@
 import Foundation
 
 struct MenuItem: Decodable {
-    let id: Int
+    //let id: Int
     let title: String
     let description: String
     let price: String

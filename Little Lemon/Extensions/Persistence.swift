@@ -7,7 +7,7 @@ struct PersistenceController {
     let container: NSPersistentContainer
     
     init() {
-        container = NSPersistentContainer(name: "MenuDatabase")
+        container = NSPersistentContainer(name: "MenuDb")
         container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         container.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
@@ -19,7 +19,7 @@ struct PersistenceController {
     
     func clear() {
         // Delete all dishes from the store
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "MenuDish")
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "MenuData")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         let _ = try? container.persistentStoreCoordinator.execute(deleteRequest, with: container.viewContext)
     }
