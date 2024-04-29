@@ -12,23 +12,53 @@ struct Menu: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @State private var isLoading = true
+    @State private var searchText = "" //search
+    @StateObject private var viewModel = MenuViewModel() //category selector
     
+    @FetchRequest var menuItems: FetchedResults<MenuData>
     
     var body: some View {
         VStack {
+            // Banner View for Search
+            Banner(searchText: $searchText)
+            
+            // Category Buttons
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(viewModel.categories, id: \.self) { category in
+                        Button(action: {
+                            viewModel.selectCategory(category)
+                            updateFetchRequest()
+                        }) {
+                            Text(category.capitalized)
+                                .padding()
+                                .background(viewModel.isSelected(category: category) ? Color.blue : Color.gray)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+
+                        }
+                    }
+                }
+                .padding(.horizontal)
+            }
+            .onChange(of: viewModel.selectedCategory) {
+                updateFetchRequest()
+            }
+            
+            
+            
             if isLoading {
                 ProgressView("Loading...")
             } else {
-                FetchedObjects(
-                    sortDescriptors: [NSSortDescriptor(keyPath: \MenuData.title, ascending: true)],
-                    content: { (menuItems: [MenuData]) in
-                        List(menuItems, id: \.title) { item in
-                            MenuItemView(item: MenuItem(title: item.title ?? "", description: item.desc ?? "", price: item.price ?? "0", image: item.image ?? "", category: item.category ?? "food"))
-                        }
-                    }
-                )
+                List(menuItems, id: \.self) { item in
+                    MenuItemView(item: MenuItem(
+                        title: item.title ?? "",
+                        description: item.desc ?? "",
+                        price: item.price ?? "0",
+                        image: item.image ?? "",
+                        category: item.category ?? "food"))
+                }
             }
-            
         }
         .onAppear {
             checkAndFetchData()
@@ -37,6 +67,8 @@ struct Menu: View {
     
     private func checkAndFetchData() {
         let fetchRequest: NSFetchRequest<MenuData> = MenuData.fetchRequest()
+        fetchRequest.predicate = PredicateUtility.buildPredicate(for: searchText, category: viewModel.selectedCategory) // apply the predicate
+        fetchRequest.sortDescriptors = [SortUtilities.titleSortDescriptor()] // apply sorting
         let count = (try? viewContext.count(for: fetchRequest)) ?? 0
         
         if count == 0 {
@@ -89,8 +121,17 @@ struct Menu: View {
         }
     }
     
+    private func updateFetchRequest() {
+        menuItems.nsPredicate = PredicateUtility.buildPredicate(for: searchText, category: viewModel.selectedCategory)
+    }
+    
+    init() {
+        _menuItems = FetchRequest<MenuData>(
+            sortDescriptors: [NSSortDescriptor(keyPath: \MenuData.title, ascending: true)],
+            animation: .default)
+    }
+    
 }
-
 
 
 #Preview {
