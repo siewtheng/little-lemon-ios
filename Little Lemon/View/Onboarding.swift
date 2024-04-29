@@ -70,7 +70,7 @@ struct Onboarding: View {
 
                     } else {
                         // email is not valid or other fields are empty
-                        print("Email is not valid")
+                        print("Email is not valid or other fields are empty")
                     }
                 }
                 .disabled(firstName.isEmpty || lastName.isEmpty || email.isEmpty || !EmailValidator.isValidEmail(email))
