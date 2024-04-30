@@ -12,6 +12,11 @@ struct Home: View {
     // persistence controller constant - core data
     let persistence = PersistenceController.shared
     
+    init() {
+        // Set the appearance of the UITabBar
+        UITabBar.appearance().backgroundColor = UIColor.white
+    }
+    
     var body: some View {
         
         TabView {
@@ -32,7 +37,10 @@ struct Home: View {
             
         }
         .navigationBarBackButtonHidden(true)
-        
+        .onAppear {
+            // reinforce the tab bar background color when the view appears
+            UITabBar.appearance().backgroundColor = UIColor.white
+        }
     }
 }
 

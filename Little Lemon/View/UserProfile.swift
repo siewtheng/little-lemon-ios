@@ -32,8 +32,9 @@ struct UserProfile: View {
     var body: some View {
         VStack {
             // display screen title
-            Text("Personal Information")
-                .font(.title)
+            Text("Profile")
+                .font(.markaziTextBold(20))
+                .fontWeight(.bold)
                 .padding()
             
             // profile image
@@ -41,7 +42,7 @@ struct UserProfile: View {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 200, height: 200)
+                    .frame(width: 150, height: 150)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.white, lineWidth: 2))
                     .shadow(radius: 10)
@@ -52,43 +53,62 @@ struct UserProfile: View {
                 // present photo picker
                 isShowingPhotoPicker = true
             }
-            .padding()
+            .padding(8)
             .sheet(isPresented: $isShowingPhotoPicker) {
                 PhotoPicker(selectedImage: $selectedImage)
             }
+            .foregroundColor(Color.text)
+            .background(RoundedRectangle(cornerRadius: 10)
+                .fill(Color.primaryYellow))
+            
+            Spacer().frame(height: 20)
             
             // fields
-            VStack(spacing: 10) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("First Name")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .foregroundColor(.secondary)
-                    TextField("First Name", text: $tempFirstName)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Last Name")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .foregroundColor(.secondary)
-                    TextField("Enter your last name", text: $tempLastName)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Email")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .foregroundColor(.secondary)
-                    TextField("Enter your email", text: $tempEmail)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .textContentType(.emailAddress)
-                        .textInputAutocapitalization(.never)
-                }
-                
+            VStack(alignment: .leading, spacing: 8) {
+                Text("First Name")
+                    .font(.karlaExtraBoldItalic(18))
+                    .foregroundStyle(Color.text)
+                TextField("First Name", text: $tempFirstName)
+                    .padding()
+                    .font(.karlaRegular(16))
+                    .cornerRadius(8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.secondaryOrange, lineWidth: 1)
+                    )
             }
+            
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Last Name")
+                    .font(.karlaExtraBoldItalic(18))
+                    .foregroundStyle(Color.text)
+                TextField("Enter your last name", text: $tempLastName)
+                    .padding()
+                    .font(.karlaRegular(16))
+                    .cornerRadius(8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.secondaryOrange, lineWidth: 1)
+                    )
+            }
+            
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Email")
+                    .font(.karlaExtraBoldItalic(18))
+                    .foregroundStyle(Color.text)
+                TextField("Enter your email", text: $tempEmail)
+                    .padding()
+                    .font(.karlaRegular(16))
+                    .cornerRadius(8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.secondaryOrange, lineWidth: 1)
+                    )
+                    .textContentType(.emailAddress)
+                    .textInputAutocapitalization(.never)
+            }
+            
+            Spacer().frame(height: 20)
             
             // save changes
             Button("Save") {
@@ -102,7 +122,22 @@ struct UserProfile: View {
                 showingSaveAlert = true
             }
             .disabled(firstName.isEmpty || lastName.isEmpty || email.isEmpty || !EmailValidator.isValidEmail(email))
-            .padding()
+            .padding(8)
+            .frame(maxWidth: .infinity)
+            .foregroundColor(firstName.isEmpty || lastName.isEmpty || email.isEmpty || !EmailValidator.isValidEmail(email) ? Color.text : Color.background)
+            .background(
+                Group {
+                    if !firstName.isEmpty && !lastName.isEmpty && !email.isEmpty && EmailValidator.isValidEmail(email) {
+                        // button enabled, use white background
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.primaryGreen)
+                    } else {
+                        // Button disabled, use green border
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.primaryGreen, lineWidth: 1)
+                    }
+                }
+            )
             
             // logout Button
             Button("Logout") {
@@ -114,13 +149,18 @@ struct UserProfile: View {
                 // dismiss the UserProfile view
                 self.presentation.wrappedValue.dismiss()
             }
-            .padding()
-            
+            .padding(8)
+            .frame(maxWidth: .infinity)
+            .foregroundColor(Color.text)
+            .background(RoundedRectangle(cornerRadius: 10)
+                .fill(Color.error))
             
             Spacer()
             
         }
-        .padding()
+        .padding(.top, 5)
+        .padding(.horizontal, 20)
+        .background(Color.background)
         .onAppear {
             tempFirstName = UserDefaults.standard.string(forKey: kFirstName) ?? ""
             tempLastName = UserDefaults.standard.string(forKey: kLastName) ?? ""

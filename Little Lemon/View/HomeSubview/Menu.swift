@@ -18,33 +18,48 @@ struct Menu: View {
     @FetchRequest var menuItems: FetchedResults<MenuData>
     
     var body: some View {
-        VStack {
+        VStack(spacing: 5) {
+            
+            // header
+            Header()
+            
             // Banner View for Search
             Banner(searchText: $searchText)
             
             // Category Buttons
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.categories, id: \.self) { category in
-                        Button(action: {
-                            viewModel.selectCategory(category)
-                            updateFetchRequest()
-                        }) {
-                            Text(category.capitalized)
-                                .padding()
-                                .background(viewModel.isSelected(category: category) ? Color.blue : Color.gray)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-
+                
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("ORDER FOR DELIVERY !")
+                        .font(.karlaExtraBold(20))
+                        .padding(.horizontal)
+                        .padding(.top, -10)
+                    
+                    
+                    HStack {
+                        ForEach(viewModel.categories, id: \.self) { category in
+                            Button(action: {
+                                viewModel.selectCategory(category)
+                                updateFetchRequest()
+                            }) {
+                                Text(category.capitalized)
+                                    .padding(10)
+                                    .background(viewModel.isSelected(category: category) ? Color.secondaryOrange : Color.text)
+                                    .foregroundColor(viewModel.isSelected(category: category) ? Color.text : .white)
+                                    .cornerRadius(10)
+                                
+                            }
                         }
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
+                .padding(.top, 10)
+                
             }
             .onChange(of: viewModel.selectedCategory) {
                 updateFetchRequest()
             }
-            
+            .background(Color.background)
             
             
             if isLoading {
@@ -57,12 +72,18 @@ struct Menu: View {
                         price: item.price ?? "0",
                         image: item.image ?? "",
                         category: item.category ?? "food"))
+                    .background(Color.background)
+                    .listRowBackground(Color.background)
                 }
+                .listStyle(PlainListStyle())
+                .listRowBackground(Color.background)
+                .background(Color.background)
             }
         }
         .onAppear {
             checkAndFetchData()
         }
+        .background(Color.background)
     }
     
     private func checkAndFetchData() {

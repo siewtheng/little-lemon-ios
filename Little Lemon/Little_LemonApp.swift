@@ -15,8 +15,16 @@ struct Little_LemonApp: App {
     
     var body: some Scene {
         WindowGroup {
-            Onboarding()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            ZStack {
+                Color.background.ignoresSafeArea(edges: .all)
+                Splash()
+                    .preferredColorScheme(.light)
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            }
+            
+                
         }
+
     }
 }
+
