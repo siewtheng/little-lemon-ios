@@ -15,15 +15,16 @@ struct MenuItemView: View {
             // Text details on the left
             VStack(alignment: .leading) {
                 Text(item.title)
-                    .font(.headline)
+                    .font(.karlaSemiBold(20))
                 
                 Text(item.description)
-                    .font(.subheadline)
+                    .font(.karlaRegular(16))
                     .lineLimit(2)
                     .truncationMode(.tail)
                 
                 Text(item.price.formattedAsCurrency())
-                    .font(.caption)
+                    .font(.markaziTextSemiBold(24))
+                    .foregroundStyle(Color.primaryGreen)
             }
             .padding(.trailing, 10)
             
@@ -48,6 +49,6 @@ struct MenuItemView: View {
                     .foregroundColor(.gray)
             }
         }
-        .padding()
+        .background(Color.background)
     }
 }

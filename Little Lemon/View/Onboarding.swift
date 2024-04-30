@@ -19,12 +19,12 @@ struct Onboarding: View {
     @State private var lastName: String = ""
     @State private var email: String = ""
     @State private var navigationPath = NavigationPath()
-
+    
     var body: some View {
         
         NavigationStack(path: $navigationPath) {
             
-            VStack {
+            VStack(spacing: 10) {
                 
                 // little lemon logo
                 Image("logo")
@@ -34,26 +34,67 @@ struct Onboarding: View {
                 
                 // label
                 Text("Welcome to Little Lemon Restaurant !")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .italic()
+                    .font(.karlaExtraBold(22))
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(Color.secondaryOrange)
                     .padding()
                 
                 // little lemon restaurant picture
                 Image("restaurant")
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
+                    .aspectRatio(contentMode: .fill)
                     .frame(height: 100)
-                   
-                Spacer().frame(height: 50)
+                    .frame(width: 200)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                
+                Spacer().frame(height: 20)
                 
                 // textfields for user details
-                TextField("First Name", text: $firstName)
-                TextField("Last Name", text: $lastName)
-                TextField("Email", text: $email)
-                    .textContentType(.emailAddress)
-                    .textInputAutocapitalization(.never)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("First Name")
+                        .font(.karlaExtraBoldItalic(18))
+                        .foregroundStyle(Color.text)
+                    TextField("First Name", text: $firstName)
+                        .padding()
+                        .font(.karlaRegular(16))
+                        .cornerRadius(8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.secondaryOrange, lineWidth: 1)
+                        )
+                }
                 
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Last Name")
+                        .font(.karlaExtraBoldItalic(18))
+                        .foregroundStyle(Color.text)
+                    TextField("Last Name", text: $lastName)
+                        .padding()
+                        .font(.karlaRegular(16))
+                        .cornerRadius(8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.secondaryOrange, lineWidth: 1)
+                        )
+                }
+                
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Email")
+                        .font(.karlaExtraBoldItalic(18))
+                        .foregroundStyle(Color.text)
+                    TextField("Email", text: $email)
+                        .padding()
+                        .font(.karlaRegular(16))
+                        .cornerRadius(8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.secondaryOrange, lineWidth: 1)
+                        )
+                        .textContentType(.emailAddress)
+                        .autocapitalization(.none)
+                }
+                
+                Spacer().frame(height: 10)
                 
                 // register button
                 Button("Register") {
@@ -63,11 +104,11 @@ struct Onboarding: View {
                         UserDefaults.standard.set(firstName, forKey: kFirstName)
                         UserDefaults.standard.set(lastName, forKey: kLastName)
                         UserDefaults.standard.set(email, forKey: kEmail)
-
+                        
                         // navigation to home
                         navigationPath.append(NavigationItem.home)
                         
-
+                        
                     } else {
                         // email is not valid or other fields are empty
                         print("Email is not valid or other fields are empty")
@@ -76,17 +117,38 @@ struct Onboarding: View {
                 .disabled(firstName.isEmpty || lastName.isEmpty || email.isEmpty || !EmailValidator.isValidEmail(email))
                 .navigationDestination(for: NavigationItem.self) { item in
                     switch item {
-                        case .home:
-                            Home()
-                        case .profile:
-                            UserProfile()
+                    case .home:
+                        Home()
+                    case .profile:
+                        UserProfile()
                     }
                 }
+                .font(.karlaBold(18))
+                .frame(maxWidth: .infinity)
+                .padding()
+                .foregroundColor(firstName.isEmpty || lastName.isEmpty || email.isEmpty || !EmailValidator.isValidEmail(email) ? Color.text : Color.background)
 
+                .background(
+                    Group {
+                        if !firstName.isEmpty && !lastName.isEmpty && !email.isEmpty && EmailValidator.isValidEmail(email) {
+                            // button enabled, use white background
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.primaryGreen)
+                        } else {
+                            // Button disabled, use green border
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.primaryGreen, lineWidth: 1)
+                        }
+                    }
+                )
+                
+                
                 Spacer()
                 
             }
-            .padding()
+            .padding(.top, 5)
+            .padding(.horizontal, 20)
+            .background(Color.background)
         }
         
         
