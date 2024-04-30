@@ -40,7 +40,6 @@ struct Menu: View {
                         ForEach(viewModel.categories, id: \.self) { category in
                             Button(action: {
                                 viewModel.selectCategory(category)
-                                updateFetchRequest()
                             }) {
                                 Text(category.capitalized)
                                     .padding(10)
@@ -55,9 +54,6 @@ struct Menu: View {
                 }
                 .padding(.top, 10)
                 
-            }
-            .onChange(of: viewModel.selectedCategory) {
-                updateFetchRequest()
             }
             .background(Color.background)
             
@@ -84,6 +80,12 @@ struct Menu: View {
             checkAndFetchData()
         }
         .background(Color.background)
+        .onChange(of: searchText) {
+            updateFetchRequest()
+        }
+        .onChange(of: viewModel.selectedCategory) {
+            updateFetchRequest()
+        }
     }
     
     private func checkAndFetchData() {
